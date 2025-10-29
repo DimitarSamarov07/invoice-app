@@ -45,7 +45,12 @@ class InvoiceController extends Controller
 
         $items = $validateInvoiceData['items'];
 
-        return $this->invoiceService->createInvoiceWithItems($validateInvoiceData, $items);
+        $invoiceToSend = $this->invoiceService->createInvoiceWithItems($validateInvoiceData, $items);
+
+        if ($invoiceToSend == null) {
+            return response()->json(['message' => 'Error creating invoice'], 500);
+        }
+        return response()->json($invoiceToSend->load('items'), 201);
     }
 
     /**
