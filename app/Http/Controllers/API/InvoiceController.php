@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
+    const int PAGINATION_LIMIT = 15;
     private InvoiceService $invoiceService;
 
     public function __construct(InvoiceService $invoiceService)
@@ -21,7 +22,7 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        return $this->invoiceService->paginateInvoices(15);
+        return $this->invoiceService->paginateInvoices(self::PAGINATION_LIMIT);
     }
 
     /**
@@ -58,7 +59,8 @@ class InvoiceController extends Controller
      */
     public function show(string $id)
     {
-
+        $invoice = $this->invoiceService->getInvoiceById($id);
+        return response()->json($invoice, 200);
     }
 
     /**
@@ -74,6 +76,12 @@ class InvoiceController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $result = $this->invoiceService->deleteInvoice($id);
+
+        if ($result == 0) {
+            return response()->noContent(400);
+        }
+
+        return response()->noContent();
     }
 }

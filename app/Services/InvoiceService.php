@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\DB;
 class InvoiceService
 {
     public function paginateInvoices(int $perPage){
-        return Invoice::paginate($perPage);
+        return Invoice::with("items")->paginate($perPage);
     }
 
-    public function createInvoiceWithItems(array $invoiceData, array $items){
+    public function createInvoiceWithItems(array $invoiceData, array $items) : ?Invoice {
 
         try {
             return DB::transaction(function () use ($invoiceData, $items) {
@@ -37,5 +37,13 @@ class InvoiceService
         catch (Exception){
             return null;
         }
+    }
+
+    public function getInvoiceById(int $id) : Invoice{
+        return Invoice::with('items')->findOrFail($id);
+    }
+
+    public function deleteInvoice(int $id) : bool{
+        return Invoice::destroy($id);
     }
 }
