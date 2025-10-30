@@ -9,9 +9,22 @@ use Throwable;
 
 class InvoiceService
 {
-    public function paginateInvoices(int $perPage)
+    public function paginateInvoices(int $perPage, array $queries)
     {
-        return Invoice::with("items")->paginate($perPage);
+        $queryForInvoices = Invoice::query();
+
+        if (isset($queries['search'])) {
+            // Make the search case-insensitive
+            $searchTerm = strtolower($queries['search']);
+
+            $queryForInvoices->whereRaw('LOWER(customer_name) LIKE ?', ['%' . $searchTerm . '%']);
+        }
+
+        if (isset($filters['status'])) {
+            $queryForInvoices->where('status', $filters['status']);
+        }
+
+        return $queryForInvoices->paginate($perPage)->withQueryString();
     }
 
     public function createInvoiceWithItems(array $invoiceData, array $items): ?Invoice
@@ -45,6 +58,7 @@ class InvoiceService
     {
         return Invoice::with('items')->findOrFail($id);
     }
+
 
     public function deleteInvoice(int $id): void
     {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateInvoiceRequest;
+use App\Http\Requests\GetInvoicesRequest;
 use App\Http\Requests\PatchUpdateInvoiceRequest;
 use App\Http\Requests\PutUpdateInvoiceRequest;
 use App\Services\InvoiceService;
@@ -21,9 +22,10 @@ class InvoiceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(GetInvoicesRequest $request)
     {
-        return $this->invoiceService->paginateInvoices(self::PAGINATION_LIMIT);
+        $validated = $request->validated();
+        return $this->invoiceService->paginateInvoices(self::PAGINATION_LIMIT, $validated);
     }
 
     /**
