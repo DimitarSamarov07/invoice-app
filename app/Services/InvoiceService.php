@@ -43,7 +43,9 @@ class InvoiceService
         return Invoice::with('items')->findOrFail($id);
     }
 
-    public function deleteInvoice(int $id) : bool{
-        return Invoice::destroy($id);
+    public function deleteInvoice(int $id): void
+    {
+        $invoice = $this->getInvoiceById($id);
+        Invoice::delete();
     }
 }

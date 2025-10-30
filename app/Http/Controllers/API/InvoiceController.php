@@ -76,12 +76,7 @@ class InvoiceController extends Controller
      */
     public function destroy(string $id)
     {
-        $result = $this->invoiceService->deleteInvoice($id);
-
-        if ($result == 0) {
-            return response()->noContent(400);
-        }
-
+        $this->invoiceService->deleteInvoice($id);
         return response()->noContent();
     }
 }

@@ -23,7 +23,7 @@ return new class extends Migration
             $table->enum("status", ["unpaid", "paid", "draft"]);
             $table->timestamp("created_at");
             $table->timestamp("updated_at");
-            $table->timestamp("deleted_at")->nullable();
+            $table->softDeletes();
         });
     }
 
