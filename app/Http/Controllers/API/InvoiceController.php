@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateInvoiceRequest;
+use App\Http\Requests\UpdateInvoiceRequest;
 use App\Models\Invoice;
 use App\Services\InvoiceService;
 use Illuminate\Http\Request;
@@ -28,21 +30,9 @@ class InvoiceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateInvoiceRequest $request)
     {
-        $validateInvoiceData = $request->validate([
-                "number" => "required|string|unique:invoices,number|max:50",
-                "customer_name" => "required|string|max:255",
-                "customer_email" => "required|email",
-                "date" => "required|date",
-                "due_date" => "required|date|gte:date",
-                "status" => "required|string|in:unpaid,paid,draft",
-                "items" => "required|array|min:1",
-                "item.*.description" => "required|string|max:500",
-                "item.*.quantity" => "required|integer|min:1",
-                "item.*.unit_price" => "required|numeric|min:0",
-            ]
-        );
+        $validateInvoiceData = $request->validated();
 
         $items = $validateInvoiceData['items'];
 
@@ -66,7 +56,7 @@ class InvoiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateInvoiceRequest $request, string $id)
     {
         //
     }
