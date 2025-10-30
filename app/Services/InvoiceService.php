@@ -106,9 +106,9 @@ class InvoiceService
 
                     // This ensures that items that are no longer present in the "items" array are deleted.
                     $invoice->items()->whereNotIn('id', $IDsOfProcessedItems)->delete();
-
-                    return $invoice->load('items');
                 }
+
+                return $invoice->load('items');
             });
         } catch (Throwable) {
             return null;
