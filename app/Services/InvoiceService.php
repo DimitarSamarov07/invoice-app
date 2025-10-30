@@ -49,7 +49,7 @@ class InvoiceService
     public function deleteInvoice(int $id): void
     {
         $invoice = $this->getInvoiceById($id);
-        Invoice::delete();
+        $invoice::delete();
     }
 
     public function updateInvoice(array $data){
