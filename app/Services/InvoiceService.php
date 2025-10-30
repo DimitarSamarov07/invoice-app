@@ -5,19 +5,22 @@ namespace App\Services;
 use App\Models\Invoice;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class InvoiceService
 {
-    public function paginateInvoices(int $perPage){
+    public function paginateInvoices(int $perPage)
+    {
         return Invoice::with("items")->paginate($perPage);
     }
 
-    public function createInvoiceWithItems(array $invoiceData, array $items) : ?Invoice {
+    public function createInvoiceWithItems(array $invoiceData, array $items): ?Invoice
+    {
 
         try {
             return DB::transaction(function () use ($invoiceData, $items) {
                 $subtotal = 0;
-                foreach ($items as $invoiceItem){
+                foreach ($items as $invoiceItem) {
                     $totalForItem = $invoiceItem['quantity'] * $invoiceItem['unit_price'];
                     $subtotal += $totalForItem;
                     $invoiceItem['total'] = $totalForItem;
@@ -33,13 +36,13 @@ class InvoiceService
                 $newInvoice = Invoice::create($invoiceData);
                 $newInvoice::items()->createMany($items);
             });
-        }
-        catch (Exception){
+        } catch (Exception) {
             return null;
         }
     }
 
-    public function getInvoiceById(int $id) : Invoice{
+    public function getInvoiceById(int $id): Invoice
+    {
         return Invoice::with('items')->findOrFail($id);
     }
 
@@ -47,5 +50,55 @@ class InvoiceService
     {
         $invoice = $this->getInvoiceById($id);
         Invoice::delete();
+    }
+
+    public function updateInvoice(array $data){
+        try {
+            return DB::transaction(function () use ($data) {
+                $invoice = $this->getInvoiceById($data['id']);
+                $invoice->update($data);
+                $invoice->items()->delete();
+                $invoice->items()->createMany($data['items']);
+            });
+        }
+        catch (Throwable) {
+            return null;
+        }
+    }
+
+    public function patchInvoice(array $data)
+    {
+        try {
+            return DB::transaction(function () use ($data) {
+                $invoice = $this->getInvoiceById($data['id']);
+                $invoice->update($data);
+
+                if (isset($data['items'])) {
+                    $IDsOfProcessedItems = [];
+                    foreach ($data['items'] as $item) {
+                        if (isset($item['id'])) {
+                            // Retrieval through the relationship ensures that no unrelated items can be updated.
+                            $itemRetrieved = $invoice->items()->find($item['id']);
+                            if (!$itemRetrieved) {
+                                continue;
+                            }
+                            $itemRetrieved->update($item);
+                            $IDsOfProcessedItems[] = $itemRetrieved->id;
+                        } else {
+                            $newItem = $invoice->items()->create($item);
+                            $IDsOfProcessedItems[] = $newItem->id;
+                        }
+                    }
+
+                    // This ensures that items that are no longer present in the "items" array are deleted.
+                    $invoice->items()->whereNotIn('id', $IDsOfProcessedItems)->delete();
+
+                    return $invoice->load('items');
+                }
+            });
+        } catch (Throwable) {
+            return null;
+        }
+
     }
 }

@@ -4,10 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateInvoiceRequest;
-use App\Http\Requests\UpdateInvoiceRequest;
-use App\Models\Invoice;
+use App\Http\Requests\PatchUpdateInvoiceRequest;
+use App\Http\Requests\PutUpdateInvoiceRequest;
 use App\Services\InvoiceService;
-use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
@@ -54,12 +53,39 @@ class InvoiceController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Patch updates the specified resource in storage.
      */
-    public function update(UpdateInvoiceRequest $request, string $id)
+    public function patch(PatchUpdateInvoiceRequest $request)
     {
-        //
+        $validatedData = $request->validated();
+
+        $patchedInvoice = $this->invoiceService->patchInvoice($validatedData);
+
+        if ($patchedInvoice == null) {
+            // If anything goes wrong, return a 500 error. The 404 cases are handled by the validation.
+            return response()->json(['message' => 'Error patching invoice. This could be caused by user error or a server fault.'], 500);
+        }
+
+        return response()->json($patchedInvoice);
     }
+
+    /**
+     * Replaces the specified resource with new data in storage.
+     */
+    public function update(PutUpdateInvoiceRequest $request)
+    {
+        $validatedData = $request->validated();
+
+        $updatedInvoice = $this->invoiceService->updateInvoice($validatedData);
+
+        if ($updatedInvoice == null) {
+            // If anything goes wrong, return a 500 error. The 404 cases are handled by the validation.
+            return response()->json(['message' => 'Error updating invoice. This could be caused by user error or a server fault.'], 500);
+        }
+
+        return response()->json($updatedInvoice);
+    }
+
 
     /**
      * Remove the specified resource from storage.
