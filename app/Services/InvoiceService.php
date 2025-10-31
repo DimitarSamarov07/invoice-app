@@ -34,9 +34,9 @@ class InvoiceService
             return DB::transaction(function () use ($invoiceData, $items) {
                 $subtotal = 0;
                 foreach ($items as $invoiceItem) {
+                    // There's no need to add the total to the DB item, as it's a calculated column.
                     $totalForItem = $invoiceItem['quantity'] * $invoiceItem['unit_price'];
                     $subtotal += $totalForItem;
-                    $invoiceItem['total'] = $totalForItem;
                 }
 
                 $total = round($subtotal * 1.2, 2);

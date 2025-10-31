@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string("description");
             $table->integer("quantity");
             $table->decimal("unit_price", 10, 2);
-            $table->decimal("total", 10, 2);
+            $table->decimal("total", 10, 2)->storedAs("unit_price * quantity");
             $table->timestamps();
         });
     }
