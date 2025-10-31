@@ -30,9 +30,9 @@ class CreateInvoiceRequest extends FormRequest
             "due_date" => "required|date|gte:date",
             "status" => "required|string|in:unpaid,paid,draft",
             "items" => "required|array|min:1",
-            "item.*.description" => "required|string|max:500",
-            "item.*.quantity" => "required|integer|min:1",
-            "item.*.unit_price" => "required|numeric|min:0",
+            "items.*.description" => "required|string|max:500",
+            "items.*.quantity" => "required|integer|min:1",
+            "items.*.unit_price" => "required|numeric|min:0",
         ];
     }
 }

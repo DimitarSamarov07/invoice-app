@@ -23,7 +23,6 @@ class PatchUpdateInvoiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "id" => "required|exists:invoices,id",
             "number" => "sometimes|string|unique:invoices,number|max:50",
             "customer_name" => "sometimes|string|max:255",
             "customer_email" => "sometimes|email",
@@ -31,10 +30,10 @@ class PatchUpdateInvoiceRequest extends FormRequest
             "due_date" => "sometimes|date|gte:date",
             "status" => "sometimes|string|in:unpaid,paid,draft",
             "items" => "sometimes|array|min:1",
-            "item.*.id" => "sometimes|exists:invoice_items,id",
-            "item.*.description" => "sometimes|string|max:500",
-            "item.*.quantity" => "sometimes|integer|min:1",
-            "item.*.unit_price" => "sometimes|numeric|min:0",
+            "items.*.id" => "sometimes|exists:invoice_items,id",
+            "items.*.description" => "sometimes|string|max:500",
+            "items.*.quantity" => "sometimes|integer|min:1",
+            "items.*.unit_price" => "sometimes|numeric|min:0",
         ];
     }
 }

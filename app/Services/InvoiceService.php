@@ -46,7 +46,7 @@ class InvoiceService
                 $invoiceData['vat'] = $vat;
 
                 $newInvoice = Invoice::create($invoiceData);
-                $newInvoice::items()->createMany($items);
+                $newInvoice->items()->createMany($items);
             });
         } catch (Exception) {
             return null;
@@ -65,10 +65,10 @@ class InvoiceService
         $invoice::delete();
     }
 
-    public function updateInvoice(array $data){
+    public function updateInvoice(string $id, array $data){
         try {
-            return DB::transaction(function () use ($data) {
-                $invoice = $this->getInvoiceById($data['id']);
+            return DB::transaction(function () use ($id, $data) {
+                $invoice = $this->getInvoiceById($id);
                 $invoice->update($data);
                 $invoice->items()->delete();
                 $invoice->items()->createMany($data['items']);
@@ -86,11 +86,11 @@ class InvoiceService
         }
     }
 
-    public function patchInvoice(array $data)
+    public function patchInvoice(string $id, array $data)
     {
         try {
-            return DB::transaction(function () use ($data) {
-                $invoice = $this->getInvoiceById($data['id']);
+            return DB::transaction(function () use ($id, $data) {
+                $invoice = $this->getInvoiceById($id);
                 $invoice->update($data);
 
                 if (isset($data['items'])) {

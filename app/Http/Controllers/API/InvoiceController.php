@@ -57,11 +57,11 @@ class InvoiceController extends Controller
     /**
      * Patch updates the specified resource in storage.
      */
-    public function patch(PatchUpdateInvoiceRequest $request)
+    public function patch(PatchUpdateInvoiceRequest $request, string $id)
     {
         $validatedData = $request->validated();
 
-        $patchedInvoice = $this->invoiceService->patchInvoice($validatedData);
+        $patchedInvoice = $this->invoiceService->patchInvoice($id, $validatedData);
 
         if ($patchedInvoice == null) {
             // If anything goes wrong, return a 500 error. The 404 cases are handled by the validation.
@@ -74,11 +74,11 @@ class InvoiceController extends Controller
     /**
      * Replaces the specified resource with new data in storage.
      */
-    public function update(PutUpdateInvoiceRequest $request)
+    public function update(PutUpdateInvoiceRequest $request, string $id)
     {
         $validatedData = $request->validated();
 
-        $updatedInvoice = $this->invoiceService->updateInvoice($validatedData);
+        $updatedInvoice = $this->invoiceService->updateInvoice($id, $validatedData);
 
         if ($updatedInvoice == null) {
             // If anything goes wrong, return a 500 error. The 404 cases are handled by the validation.

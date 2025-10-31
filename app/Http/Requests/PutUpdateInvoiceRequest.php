@@ -23,7 +23,6 @@ class PutUpdateInvoiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "id" => "required|exists:invoices,id",
             "number" => "required|string|unique:invoices,number|max:50",
             "customer_name" => "required|string|max:255",
             "customer_email" => "required|email",
@@ -31,9 +30,9 @@ class PutUpdateInvoiceRequest extends FormRequest
             "due_date" => "required|date|gte:date",
             "status" => "required|string|in:unpaid,paid,draft",
             "items" => "required|array|min:1",
-            "item.*.description" => "required|string|max:500",
-            "item.*.quantity" => "required|integer|min:1",
-            "item.*.unit_price" => "required|numeric|min:0",
+            "items.*.description" => "required|string|max:500",
+            "items.*.quantity" => "required|integer|min:1",
+            "items.*.unit_price" => "required|numeric|min:0",
         ];
     }
 }
