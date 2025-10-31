@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Models\Invoice;
-use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
@@ -48,16 +48,10 @@ class InvoiceService
                 $newInvoice = Invoice::create($invoiceData);
                 $newInvoice->items()->createMany($items);
             });
-        } catch (Exception) {
+        } catch (Throwable) {
             return null;
         }
     }
-
-    public function getInvoiceById(int $id): Invoice
-    {
-        return Invoice::with('items')->findOrFail($id);
-    }
-
 
     public function deleteInvoice(int $id): void
     {
@@ -65,7 +59,13 @@ class InvoiceService
         $invoice::delete();
     }
 
-    public function updateInvoice(string $id, array $data){
+    public function getInvoiceById(int $id): Invoice
+    {
+        return Invoice::with('items')->findOrFail($id);
+    }
+
+    public function updateInvoice(string $id, array $data)
+    {
         try {
             return DB::transaction(function () use ($id, $data) {
                 $invoice = $this->getInvoiceById($id);
@@ -80,8 +80,9 @@ class InvoiceService
                 $invoice->save();
                 return $invoice->load('items');
             });
-        }
-        catch (Throwable) {
+        } catch (ModelNotFoundException $e) {
+            throw $e;
+        } catch (Throwable) {
             return null;
         }
     }
@@ -122,6 +123,8 @@ class InvoiceService
 
                 return $invoice->load('items');
             });
+        } catch (ModelNotFoundException $e) {
+            throw $e;
         } catch (Throwable) {
             return null;
         }

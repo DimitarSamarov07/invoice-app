@@ -51,6 +51,9 @@ class InvoiceController extends Controller
     public function show(string $id)
     {
         $invoice = $this->invoiceService->getInvoiceById($id);
+        if (!$invoice){
+            return response()->json(['message' => 'Invoice not found'], 404);
+        }
         return response()->json($invoice, 200);
     }
 
