@@ -742,9 +742,8 @@ All error responses linked with validation follow this structure:
 ---
 
 ## Rate Limiting
-
 Unlimited requests per minute.
----
+
 
 ## Pagination
 
