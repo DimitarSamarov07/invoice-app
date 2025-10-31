@@ -1,0 +1,298 @@
+{
+	"info": {
+		"_postman_id": "2d6d2281-3915-4de9-8194-7ecae37f0bcf",
+		"name": "Invoice API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6614517"
+	},
+	"item": [
+		{
+			"name": "Read",
+			"item": [
+				{
+					"name": "Get all invoices from first page",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/info?id=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"info"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+					},
+					"response": []
+				},
+				{
+					"name": "Get all invoices from second page",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/invoices?page=2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"invoices"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								}
+							]
+						},
+						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+					},
+					"response": []
+				},
+				{
+					"name": "Get an invoice by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/invoices/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"invoices",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all invoices for customer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/invoices?search=Strosin Ltd",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"invoices"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "Strosin Ltd"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Create",
+			"item": [
+				{
+					"name": "Create a new invoice",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"number\": \"INV-2025-001\",\n  \"customer_name\": \"Acme Corporation\",\n  \"customer_email\": \"contact@acme.com\",\n  \"date\": \"2025-10-31\",\n  \"due_date\": \"2025-11-30\",\n  \"status\": \"draft\",\n  \"items\": [\n    {\n      \"description\": \"Website Design Mockups\",\n      \"quantity\": 1,\n      \"unit_price\": 1200.00\n    },\n    {\n      \"description\": \"Monthly Web Hosting (Nov 2025)\",\n      \"quantity\": 1,\n      \"unit_price\": 25.50\n    }\n  ]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/invoices",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"invoices"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Update",
+			"item": [
+				{
+					"name": "Update invoice(new values)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"number\": \"INV-2025-002\",\n  \"customer_name\": \"Web Solutions Ltd.\",\n  \"customer_email\": \"contact@websolutions.com\",\n  \"date\": \"2025-11-01\",\n  \"due_date\": \"2025-12-01\",\n  \"status\": \"unpaid\",\n  \"items\": [\n    {\n      \"description\": \"Premium Website Hosting (1 Year)\",\n      \"quantity\": 1,\n      \"unit_price\": 350\n    },\n    {\n      \"description\": \"Domain Name Registration\",\n      \"quantity\": 1,\n      \"unit_price\": 15\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/invoices/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"invoices",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch invoice(simple)",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"paid\",\n  \"customer_email\": \"billing@websolutions.com\"\n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/invoices/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"invoices",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"number\": \"INV-2025-001\",\n  \"customer_name\": \"Acme Corporation\",\n  \"customer_email\": \"contact@acme.com\",\n  \"date\": \"2025-10-31\",\n  \"due_date\": \"2025-11-30\",\n  \"status\": \"draft\",\n  \"items\": [\n    {\n      \"description\": \"Website Design Mockups\",\n      \"quantity\": 1,\n      \"unit_price\": 1200.00\n    },\n    {\n      \"description\": \"Monthly Web Hosting (Nov 2025)\",\n      \"quantity\": 1,\n      \"unit_price\": 25.50\n    }\n  ]\n}\n"
+						},
+						"url": {
+							"raw": "{{base_url}}/invoices/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"invoices",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "1"
+		},
+		{
+			"key": "base_url",
+			"value": "https://template.postman-echo.com"
+		}
+	]
+}
