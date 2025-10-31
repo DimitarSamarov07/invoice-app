@@ -47,6 +47,8 @@ class InvoiceService
 
                 $newInvoice = Invoice::create($invoiceData);
                 $newInvoice->items()->createMany($items);
+
+                return $newInvoice->load('items');
             });
         } catch (Throwable) {
             return null;

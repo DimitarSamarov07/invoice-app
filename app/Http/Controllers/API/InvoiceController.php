@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateInvoiceRequest;
 use App\Http\Requests\GetInvoicesRequest;
 use App\Http\Requests\PatchUpdateInvoiceRequest;
 use App\Http\Requests\PutUpdateInvoiceRequest;
 use App\Services\InvoiceService;
 
-class InvoiceController extends Controller
+class InvoiceController
 {
     const int PAGINATION_LIMIT = 15;
     private InvoiceService $invoiceService;
