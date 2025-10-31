@@ -44,7 +44,6 @@ class InvoiceService
 
                 $invoiceData['subtotal'] = $subtotal;
                 $invoiceData['vat'] = $vat;
-                $invoiceData['total'] = $total;
 
                 $newInvoice = Invoice::create($invoiceData);
                 $newInvoice::items()->createMany($items);
@@ -73,6 +72,13 @@ class InvoiceService
                 $invoice->update($data);
                 $invoice->items()->delete();
                 $invoice->items()->createMany($data['items']);
+
+                $subtotal = $invoice->items()->sum('total');
+                $vat = round($subtotal * 0.2, 2);
+                $invoice->subtotal = $subtotal;
+                $invoice->vat = $vat;
+                $invoice->save();
+                return $invoice->load('items');
             });
         }
         catch (Throwable) {
@@ -106,6 +112,12 @@ class InvoiceService
 
                     // This ensures that items that are no longer present in the "items" array are deleted.
                     $invoice->items()->whereNotIn('id', $IDsOfProcessedItems)->delete();
+
+                    $subtotal = $invoice->items()->sum('total');
+                    $vat = round($subtotal * 0.2, 2);
+                    $invoice->subtotal = $subtotal;
+                    $invoice->vat = $vat;
+                    $invoice->save();
                 }
 
                 return $invoice->load('items');
