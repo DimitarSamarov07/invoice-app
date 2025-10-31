@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('invoice_items', function (Blueprint $table) {
             $table->id();
-            $table->foreign('id')->references('id')->on('invoices')->onDelete('cascade');
+            $table->foreignId('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
             $table->string("description");
             $table->integer("quantity");
             $table->decimal("unit_price", 10, 2);
