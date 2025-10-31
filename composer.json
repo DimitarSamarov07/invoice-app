@@ -75,6 +75,10 @@
         ],
         "pre-package-uninstall": [
             "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
+        ],
+        "heroku-prod": [
+            "@php artisan config:cache",
+            "@php artisan route:cache"
         ]
     },
     "extra": {
