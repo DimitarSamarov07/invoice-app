@@ -186,10 +186,43 @@ curl -X GET "http://localhost:8000/api/invoices"
             "status": "unpaid",
             "created_at": "2025-10-31T10:18:24.000000Z",
             "updated_at": "2025-10-31T13:16:11.000000Z",
-            "deleted_at": null
+            "deleted_at": null,
+            "items": [
+                {
+                    "id": 8,
+                    "invoice_id": 2,
+                    "description": "Porro alias facilis et.",
+                    "quantity": 2,
+                    "unit_price": "375.00",
+                    "total": "750.00",
+                    "created_at": "2025-10-31T10:18:24.000000Z",
+                    "updated_at": "2025-10-31T13:14:48.000000Z"
+                },
+                {
+                    "id": 88,
+                    "invoice_id": 2,
+                    "description": "New Monthly Support Retainer",
+                    "quantity": 1,
+                    "unit_price": "150.00",
+                    "total": "150.00",
+                    "created_at": "2025-10-31T13:16:11.000000Z",
+                    "updated_at": "2025-10-31T13:16:11.000000Z"
+                },
+                {
+                    "id": 89,
+                    "invoice_id": 2,
+                    "description": "New Monthly Support Retainer",
+                    "quantity": 1,
+                    "unit_price": "150.00",
+                    "total": "150.00",
+                    "created_at": "2025-10-31T13:16:11.000000Z",
+                    "updated_at": "2025-10-31T13:16:11.000000Z"
+                }
+            ]
         },
-        ..............
-
+             
+        ......................
+        
         {
             "id": 16,
             "number": "INVOICE-5991824506",
@@ -203,7 +236,59 @@ curl -X GET "http://localhost:8000/api/invoices"
             "status": "draft",
             "created_at": "2025-10-31T10:18:24.000000Z",
             "updated_at": "2025-10-31T10:18:24.000000Z",
-            "deleted_at": null
+            "deleted_at": null,
+            "items": [
+                {
+                    "id": 62,
+                    "invoice_id": 16,
+                    "description": "Eos et neque nulla aspernatur perferendis sit qui.",
+                    "quantity": 1,
+                    "unit_price": "220.39",
+                    "total": "220.39",
+                    "created_at": "2025-10-31T10:18:24.000000Z",
+                    "updated_at": "2025-10-31T10:18:24.000000Z"
+                },
+                {
+                    "id": 63,
+                    "invoice_id": 16,
+                    "description": "Ut et dolor voluptatem.",
+                    "quantity": 5,
+                    "unit_price": "485.14",
+                    "total": "2425.70",
+                    "created_at": "2025-10-31T10:18:24.000000Z",
+                    "updated_at": "2025-10-31T10:18:24.000000Z"
+                },
+                {
+                    "id": 64,
+                    "invoice_id": 16,
+                    "description": "Fuga temporibus impedit corrupti.",
+                    "quantity": 1,
+                    "unit_price": "361.16",
+                    "total": "361.16",
+                    "created_at": "2025-10-31T10:18:24.000000Z",
+                    "updated_at": "2025-10-31T10:18:24.000000Z"
+                },
+                {
+                    "id": 65,
+                    "invoice_id": 16,
+                    "description": "Aut dolor rerum rerum.",
+                    "quantity": 3,
+                    "unit_price": "435.23",
+                    "total": "1305.69",
+                    "created_at": "2025-10-31T10:18:24.000000Z",
+                    "updated_at": "2025-10-31T10:18:24.000000Z"
+                },
+                {
+                    "id": 66,
+                    "invoice_id": 16,
+                    "description": "Voluptate voluptas facere iure illum odio dolorem.",
+                    "quantity": 7,
+                    "unit_price": "297.44",
+                    "total": "2082.08",
+                    "created_at": "2025-10-31T10:18:24.000000Z",
+                    "updated_at": "2025-10-31T10:18:24.000000Z"
+                }
+            ]
         }
     ],
     "first_page_url": "http://127.0.0.1:8000/api/invoices?page=1",
@@ -241,7 +326,7 @@ curl -X GET "http://localhost:8000/api/invoices"
     "per_page": 15,
     "prev_page_url": null,
     "to": 15,
-    "total": 20
+    "total": 24
 }
 ```
 
@@ -285,6 +370,7 @@ curl -X GET "http://localhost:8000/api/invoices/1" \
     "items": [
         {
             "id": 1,
+            "invoice_id": 1,
             "description": "Web Development Services",
             "quantity": 10,
             "unit_price": "150.00",
@@ -479,6 +565,7 @@ curl -X PUT "http://localhost:8000/api/invoices/2" \
     "items": [
         {
             "id": 4,
+            "invoice_id": 2,
             "description": "Logo Design - Revised",
             "quantity": 1,
             "unit_price": "600.00",
