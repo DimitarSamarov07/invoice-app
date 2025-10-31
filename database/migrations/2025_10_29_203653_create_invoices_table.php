@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date("due_date");
             $table->decimal("subtotal", 10, 2);
             $table->decimal("vat", 10, 2);
-            $table->decimal("total", 10, 2);
+            $table->decimal("total", 10, 2) -> storedAs("subtotal + vat");
             $table->enum("status", ["unpaid", "paid", "draft"]);
             $table->timestamp("created_at");
             $table->timestamp("updated_at");
