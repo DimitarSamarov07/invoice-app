@@ -15,7 +15,7 @@ This project is structured as a clean, backend-only API service — no frontend,
 - [API Overview](#api-overview)
 - [Invoice API Reference](#api-overview)
 - [Testing the API](#invoice-api-reference)
-- [Deployment]()
+- [Deployment](#deployment)
 
 ---
 
@@ -860,4 +860,4 @@ A Postman collection is available in the `postman` folder.
 
 
 ## Deployment
-The application is deployed on Railway. You can find the link to the app [here](https://invoice-app.railway.app/).
+The application is deployed on Railway. You can find the link to the app [here](https://invoice-api-laravel.up.railway.app/api).
