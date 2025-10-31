@@ -58,7 +58,7 @@ class InvoiceService
     public function deleteInvoice(int $id): void
     {
         $invoice = $this->getInvoiceById($id);
-        $invoice::delete();
+        $invoice->delete();
     }
 
     public function getInvoiceById(int $id): Invoice
