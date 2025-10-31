@@ -32,11 +32,11 @@ class InvoiceFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function ($invoice) {
-            $items = InvoiceItem::factory(rand(3, 5))->create([
+            InvoiceItem::factory(rand(3, 5))->create([
                 'invoice_id' => $invoice->id,
             ]);
 
-            $subtotal = $items->sum('total');
+            $subtotal = $invoice->items()->sum('total');
             $vat = round($subtotal * 0.2, 2);
 
             $invoice->subtotal = $subtotal;
