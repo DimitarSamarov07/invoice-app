@@ -10,5 +10,7 @@ fi
 # Run migrations
 php artisan migrate --force
 
+php artisan serve --port 8000
+
 # Start supervisor
 exec /usr/bin/supervisord -c /etc/supervisord.conf
