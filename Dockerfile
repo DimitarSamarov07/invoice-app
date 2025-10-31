@@ -17,12 +17,6 @@ COPY . .
 # Install composer dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Install npm dependencies and build
-RUN npm install
-
-# Build frontend assets
-RUN npm run build
-
 # Copy config files
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 COPY docker/supervisord.conf /etc/supervisord.conf
