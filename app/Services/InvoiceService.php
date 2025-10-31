@@ -20,8 +20,8 @@ class InvoiceService
             $queryForInvoices->whereRaw('LOWER(customer_name) LIKE ?', ['%' . $searchTerm . '%']);
         }
 
-        if (isset($filters['status'])) {
-            $queryForInvoices->where('status', $filters['status']);
+        if (isset($queries['status'])) {
+            $queryForInvoices->where('status', $queries['status']);
         }
 
         return $queryForInvoices->paginate($perPage)->withQueryString();

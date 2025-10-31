@@ -24,7 +24,7 @@ class GetInvoicesRequest extends FormRequest
     {
         return [
             'search' => 'sometimes|string|max:255',
-            'status' => 'sometimes|string|in:paid,unpaid,overdue'
+            'status' => 'sometimes|string|in:paid,unpaid,draft'
         ];
     }
 
