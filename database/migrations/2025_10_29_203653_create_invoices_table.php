@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('number')->unique();
             $table->string("customer_name");
             $table->string("customer_email");
+            $table->date("date");
             $table->date("due_date");
             $table->decimal("subtotal", 10, 2);
             $table->decimal("vat", 10, 2);
