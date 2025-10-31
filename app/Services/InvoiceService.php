@@ -11,7 +11,7 @@ class InvoiceService
 {
     public function paginateInvoices(int $perPage, array $queries)
     {
-        $queryForInvoices = Invoice::query();
+        $queryForInvoices = Invoice::query()->with('items');
 
         if (isset($queries['search'])) {
             // Make the search case-insensitive
