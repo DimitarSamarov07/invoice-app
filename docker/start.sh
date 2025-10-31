@@ -7,9 +7,10 @@ if [ ! -f /var/www/html/database/database.sqlite ]; then
     chown www-data:www-data /var/www/html/database/database.sqlite
 fi
 
-# Run migrations
-php artisan migrate --force
+# Run migrations and seed
+php artisan migrate --force --seed
 
+# Serve the API
 php artisan serve --port 8005 --host 0.0.0.0
 
 # Start supervisor

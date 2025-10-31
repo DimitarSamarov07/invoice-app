@@ -1,7 +1,7 @@
 FROM php:8.4-fpm-alpine
 
 # Install nginx and supervisor
-RUN apk add --no-cache nginx supervisor nodejs npm
+RUN apk add --no-cache supervisor nodejs npm
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo pdo_mysql opcache
@@ -18,7 +18,6 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader
 
 # Copy config files
-COPY docker/nginx.conf /etc/nginx/nginx.conf
 COPY docker/supervisord.conf /etc/supervisord.conf
 COPY docker/start.sh /start.sh
 
