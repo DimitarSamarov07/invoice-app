@@ -8,6 +8,7 @@ use App\Http\Requests\PatchUpdateInvoiceRequest;
 use App\Http\Requests\PutUpdateInvoiceRequest;
 use App\Services\InvoiceService;
 
+// Most errors will be handled by the validation rules.
 class InvoiceController
 {
     const int PAGINATION_LIMIT = 15;

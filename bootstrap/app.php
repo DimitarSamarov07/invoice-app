@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         api: __DIR__ . '/../routes/api.php',
-        health: '/up',
-    )->withMiddleware(function (Middleware $middleware) {
-    })->withExceptions(function ($exceptions) {
+        health: '/up')
+    ->withMiddleware(function (Middleware $middleware) {})
+    ->withExceptions(function ($exceptions) {
+        // Exceptions should be rendered as JSON in the API routes
         $exceptions->shouldRenderJsonWhen(function (Request $request, Throwable $e) {
-            // Exceptions should be rendered as JSON
             if ($request->is('api/*')) {
                 return true; // Always render JSON for 'api/*' routes
             }

@@ -16,6 +16,7 @@ class InvoiceItemFactory extends Factory
      */
     public function definition(): array
     {
+        // Use FakerPHP to generate fake, but realistic data
         return [
             "description" => fake()->sentence(),
             "quantity" => fake()->numberBetween(1, 10),

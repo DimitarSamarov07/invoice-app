@@ -17,6 +17,7 @@ class InvoiceFactory extends Factory
      */
     public function definition(): array
     {
+        // Use FakerPHP to generate fake, but realistic data
         return [
             "number" => fake()->unique()->numerify('INVOICE-##########'),
             "customer_name" => fake()->company(),
@@ -29,8 +30,9 @@ class InvoiceFactory extends Factory
         ];
     }
 
-    public function configure()
+    public function configure(): Factory|InvoiceFactory
     {
+        // Use the afterCreating callback to create related models
         return $this->afterCreating(function ($invoice) {
             InvoiceItem::factory(rand(3, 5))->create([
                 'invoice_id' => $invoice->id,
@@ -42,6 +44,7 @@ class InvoiceFactory extends Factory
             $invoice->subtotal = $subtotal;
             $invoice->vat = $vat;
 
+            // Save the invoice with the updated subtotal and vat
             $invoice->save();
         });
     }
